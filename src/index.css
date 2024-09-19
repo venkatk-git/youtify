@@ -1,0 +1,64 @@
+:root {
+    /* ---- COLORS ---- */
+    /* Primary Colors */
+    --primary-black: #0f0f0f;
+    --primary-gray: #3d3d3d;
+    --primary-red: #ff0033;
+
+    /* Font Colors */
+    --primary-text-color: #f1f1f1;
+    --secondary-text-color: #aaaaaa;
+    --tertiary-text-color: #4f4f4f;
+
+    /* Grays */
+    --color-gray-50: hsl(0 5% 9%);
+    --color-gray-100: hsl(0, 5%, 12%);
+    --color-gray-200: hsl(0 5% 18%);
+    --color-gray-400: hsl(0 5% 40%);
+    --color-gray-600: hsl(0 5% 55%);
+    --color-gray-800: hsl(0 5% 77%);
+    --color-gray-1000: hsl(0 5% 96%);
+
+    /* ---- FONT SIZES ---- */
+    --font-size-ss: 10px;
+    --font-size-s: 14px;
+    --font-size-m: 16px;
+    --font-size-l: 20px;
+    --font-size-l: 24px;
+
+    /* ---- MARGIN SIZES ---- */
+
+    --margin-base: 4px;
+    --margin-2x: 8px;
+    --margin-3x: 12px;
+    --margin-4x: 16px;
+    --margin-5x: 20px;
+    --margin-6x: 24px;
+    --margin-7x: 28px;
+    --margin-8x: 32px;
+    --margin-9x: 36px;
+    --margin-10x: 40px;
+    --margin-11x: 44px;
+    --margin-12x: 48px;
+    --margin-14x: 56px;
+    --margin-16x: 64px;
+    --margin-17x: 68px;
+    --margin-24x: 96px;
+    --margin-25x: 100px;
+    --margin-35x: 140px;
+    --neg-margin-base: -4px;
+    --neg-margin-2x: -8px;
+    --neg-margin-3x: -12px;
+    --neg-margin-4x: -16px;
+    --neg-margin-5x: -20px;
+    --neg-margin-6x: -24px;
+    --neg-margin-7x: -28px;
+    --neg-margin-8x: -32px;
+    --neg-margin-10x: -40px;
+    --neg-margin-11x: -44px;
+    --neg-margin-12x: -48px;
+    --neg-margin-14x: -56px;
+    --neg-margin-16x: -64px;
+    --neg-margin-24x: -96px;
+    --neg-margin-25x: -100px;
+}

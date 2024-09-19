@@ -26,8 +26,17 @@
     --font-size-l: 20px;
     --font-size-l: 24px;
 
-    /* ---- MARGIN SIZES ---- */
+    /* ---- FONT FAMILY ---- */
+    --font: Roboto, Arial, sans-serif;
 
+    /* ---- FONT WEIGHTS ---- */
+    --heavy: 900;
+    --bold: 700;
+    --semibold: 500;
+    --normal: 400;
+    --thin: 300;
+
+    /* ---- MARGIN SIZES ---- */
     --margin-base: 4px;
     --margin-2x: 8px;
     --margin-3x: 12px;
@@ -61,4 +70,98 @@
     --neg-margin-16x: -64px;
     --neg-margin-24x: -96px;
     --neg-margin-25x: -100px;
+} /* CSS reset */
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+form,
+fieldset,
+input,
+textarea,
+p,
+blockquote,
+th,
+td {
+    margin: 0;
+    padding: 0;
+}
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+fieldset,
+img {
+    border: 0;
+}
+input {
+    border: 1px solid #b0b0b0;
+    padding: 3px 5px 4px;
+    color: #979797;
+    width: 190px;
+}
+address,
+caption,
+cite,
+code,
+dfn,
+th,
+var {
+    font-style: normal;
+    font-weight: normal;
+}
+ol,
+ul {
+    list-style: none;
+}
+caption,
+th {
+    text-align: left;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: 100%;
+    font-weight: normal;
+}
+q:before,
+q:after {
+    content: "";
+}
+abbr,
+acronym {
+    border: 0;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    box-sizing: border-box;
+    background-color: var(--primary-black);
+    color: var(--primary-text-color);
+    font-family: var(--font);
+    font-weight: var(--normal);
 }

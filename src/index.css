@@ -2,7 +2,7 @@
     /* ---- COLORS ---- */
     /* Primary Colors */
     --primary-black: #0f0f0f;
-    --primary-gray: #3d3d3d;
+    --primary-gray: #222222;
     --primary-red: #ff0033;
 
     /* Font Colors */
@@ -11,13 +11,20 @@
     --tertiary-text-color: #4f4f4f;
 
     /* Grays */
-    --color-gray-50: hsl(0 5% 9%);
-    --color-gray-100: hsl(0, 5%, 12%);
-    --color-gray-200: hsl(0 5% 18%);
-    --color-gray-400: hsl(0 5% 40%);
-    --color-gray-600: hsl(0 5% 55%);
-    --color-gray-800: hsl(0 5% 77%);
-    --color-gray-1000: hsl(0 5% 96%);
+    --color-gray-50: hsl(0, 0, 9%);
+    --color-gray-100: hsl(0, 0, 12%);
+    --color-gray-150: hsl(0, 0, 16%);
+    --color-gray-200: hsl(0 0 18%);
+    --color-gray-400: hsl(0 0 40%);
+    --color-gray-600: hsl(0 0 55%);
+    --color-gray-800: hsl(0 0 77%);
+    --color-gray-1000: hsl(0 0 96%);
+
+    /* ---- BORDER COLORS ---- */
+    --border-gray-100: hsl(0, 0%, 18.82%);
+
+    /* ---- BACKGROUND COLORS ---- */
+    --nav-search-bg: #121212;
 
     /* ---- FONT SIZES ---- */
     --font-size-ss: 10px;
@@ -93,7 +100,14 @@
     --neg-margin-16x: -64px;
     --neg-margin-24x: -96px;
     --neg-margin-25x: -100px;
-} /* CSS reset */
+
+    /* ---- ADDITIONAL VARIABLES ---- */
+
+    /* NAVIGATION BAR VARIABLES */
+    --nav-search-width: 512px;
+}
+
+/* CSS reset */
 body,
 div,
 dl,

@@ -16,6 +16,9 @@ function NavigationBar() {
                 />
             </MenuIcon>
             <Logo />
+            <Filler />
+            <SearchFeild />
+            <Filler />
         </Wrapper>
     );
 }
@@ -32,6 +35,10 @@ const MenuIcon = styled.div`
     font-size: var(--icon-size-md);
     margin-right: var(--margin-6x);
     cursor: pointer;
+`;
+
+const Filler = styled.div`
+    flex: 1;
 `;
 
 export default NavigationBar;

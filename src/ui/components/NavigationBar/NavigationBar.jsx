@@ -1,5 +1,37 @@
+// Dependencies
+import { styled } from "styled-components";
+
+// Components
+import { Icon } from "@iconify/react/dist/iconify.js";
+import Logo from "../Logo/Logo";
+import SearchFeild from "./SearchFeild";
+
 function NavigationBar() {
-    return <div>NavigationBar</div>;
+    return (
+        <Wrapper>
+            <MenuIcon>
+                <Icon
+                    icon="clarity:menu-line"
+                    style={{ color: "white", marginBottom: "-2px" }}
+                />
+            </MenuIcon>
+            <Logo />
+        </Wrapper>
+    );
 }
+
+// Styled Components
+
+const Wrapper = styled.div`
+    padding: var(--padding-4x) var(--padding-6x);
+    display: flex;
+    align-items: baseline;
+`;
+
+const MenuIcon = styled.div`
+    font-size: var(--icon-size-md);
+    margin-right: var(--margin-6x);
+    cursor: pointer;
+`;
 
 export default NavigationBar;

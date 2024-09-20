@@ -1,5 +1,11 @@
+import NavigationBar from "./ui/components/NavigationBar/NavigationBar.jsx";
+
 function App() {
-  return <>Youtify</>;
+    return (
+        <>
+            <NavigationBar />
+        </>
+    );
 }
 
 export default App;

@@ -24,7 +24,7 @@
     --font-size-s: 14px;
     --font-size-m: 16px;
     --font-size-l: 20px;
-    --font-size-l: 24px;
+    --font-size-ll: 24px;
 
     /* ---- FONT FAMILY ---- */
     --font: Roboto, Arial, sans-serif;
@@ -35,6 +35,29 @@
     --semibold: 500;
     --normal: 400;
     --thin: 300;
+
+    /* ---- ICON SIZES ---- */
+    --icon-size-md: 24px;
+
+    /* ---- PADDING SIZED ---- */
+    --padding-base: 4px;
+    --padding-2x: 8px;
+    --padding-3x: 12px;
+    --padding-4x: 16px;
+    --padding-5x: 20px;
+    --padding-6x: 24px;
+    --padding-7x: 28px;
+    --padding-8x: 32px;
+    --padding-9x: 36px;
+    --padding-10x: 40px;
+    --padding-11x: 44px;
+    --padding-12x: 48px;
+    --padding-14x: 56px;
+    --padding-16x: 64px;
+    --padding-17x: 68px;
+    --padding-24x: 96px;
+    --padding-25x: 100px;
+    --padding-35x: 140px;
 
     /* ---- MARGIN SIZES ---- */
     --margin-base: 4px;

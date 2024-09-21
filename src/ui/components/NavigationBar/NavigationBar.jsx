@@ -5,6 +5,7 @@ import { styled } from "styled-components";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Logo from "../Logo/Logo";
 import SearchFeild from "./SearchFeild";
+import WatchPartyButton from "./WatchPartyButton";
 
 function NavigationBar() {
     return (
@@ -19,6 +20,7 @@ function NavigationBar() {
             <Filler />
             <SearchFeild />
             <Filler />
+            <WatchPartyButton>Watch</WatchPartyButton>
         </Wrapper>
     );
 }

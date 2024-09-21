@@ -22,6 +22,7 @@
 
     /* ---- BORDER COLORS ---- */
     --border-gray-100: hsl(0, 0%, 18.82%);
+    --border-gray-200: #3f3f3f;
 
     /* ---- BACKGROUND COLORS ---- */
     --nav-search-bg: #121212;
@@ -32,6 +33,7 @@
     --font-size-m: 16px;
     --font-size-l: 20px;
     --font-size-ll: 24px;
+    --font-size-ul: 28px;
 
     /* ---- FONT FAMILY ---- */
     --font: Roboto, Arial, sans-serif;
@@ -100,6 +102,20 @@
     --neg-margin-16x: -64px;
     --neg-margin-24x: -96px;
     --neg-margin-25x: -100px;
+
+    /* GAPS */
+    --gap-base: 4px;
+    --gap-2x: 8px;
+    --gap-2x: 12px;
+    --gap-4x: 16px;
+    --gap-6x: 18px;
+    --gap-7x: 24px;
+    --gap-8x: 28px;
+
+    /* ---- BORDER RADIUS ---- */
+    --round-base: 4px;
+    --round-2x: 8px;
+    --rount-3x: 12px;
 
     /* ---- ADDITIONAL VARIABLES ---- */
 
@@ -186,6 +202,10 @@ q:after {
 }
 abbr,
 acronym {
+    border: 0;
+}
+
+button {
     border: 0;
 }
 

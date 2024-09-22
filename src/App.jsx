@@ -11,6 +11,8 @@ function App() {
     );
 }
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+    padding-bottom: var(--padding-2x);
+`;
 
 export default App;

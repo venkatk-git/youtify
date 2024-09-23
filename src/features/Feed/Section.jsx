@@ -10,11 +10,13 @@ function Section({ title }) {
     return (
         <Wrapper>
             <Title>
-                <Icon
-                    className="icon"
-                    icon="simple-icons:youtubeshorts"
-                    style={{ color: "var(--primary-red)" }}
-                />
+                {title != "" && (
+                    <Icon
+                        className="icon"
+                        icon="simple-icons:youtubeshorts"
+                        style={{ color: "var(--primary-red)" }}
+                    />
+                )}
                 {title}
             </Title>
             <GridWrapper>

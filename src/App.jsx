@@ -1,12 +1,23 @@
 // Dependencies
 import styled from "styled-components";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import HomePage from "./pages/HomePage/Layout";
+// Components
+import Home from "./pages/HomePage/Home";
+import SearchPage from "./pages/SearchPage/SearchPage";
+import MainLayout from "./pages/MainLayout/MainLayout";
 
 function App() {
     return (
         <Wrapper>
-            <HomePage />
+            <Router>
+                <Routes>
+                    <Route element={<MainLayout />}>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/search" element={<SearchPage />} />
+                    </Route>
+                </Routes>
+            </Router>
         </Wrapper>
     );
 }

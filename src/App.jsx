@@ -22,6 +22,7 @@ function App() {
     );
 }
 
+// Styled Components
 const Wrapper = styled.div`
     padding-bottom: var(--padding-2x);
 `;

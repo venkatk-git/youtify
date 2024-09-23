@@ -3,39 +3,40 @@ import styled from "styled-components";
 
 // Components
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { Link } from "react-router-dom";
 
 function SideBar() {
     return (
         <Wrapper>
             <Section>
-                <Link className="active">
+                <LinkWrapper className="active" to={"/"}>
                     <Icon icon="ic:round-home" style={{ color: "white" }} />
                     <Name>Home</Name>
-                </Link>
-                <Link>
+                </LinkWrapper>
+                <LinkWrapper to={"/smartplaylist"}>
                     <Icon
                         icon="solar:playlist-bold"
                         style={{ color: "white" }}
                     />
                     <Name>Smart Playlist</Name>
-                </Link>
-                <Link>
+                </LinkWrapper>
+                <LinkWrapper to={"/watchparty"}>
                     <Icon icon="mdi:theater" style={{ color: "white" }} />
                     <Name>Watch Party</Name>
-                </Link>
+                </LinkWrapper>
             </Section>
             <Section>
-                <Link>
+                <LinkWrapper to={"/settings"}>
                     <Icon
                         icon="solar:settings-linear"
                         style={{ color: "white" }}
                     />
                     <Name>Settings</Name>
-                </Link>
-                <Link>
+                </LinkWrapper>
+                <LinkWrapper>
                     <Icon icon="tabler:logout" style={{ color: "white" }} />
                     <Name>Sign out</Name>
-                </Link>
+                </LinkWrapper>
             </Section>
         </Wrapper>
     );
@@ -61,7 +62,9 @@ const Section = styled.div`
     }
 `;
 
-const Link = styled.div`
+const LinkWrapper = styled(Link)`
+    text-decoration: none;
+    color: inherit;
     display: flex;
     gap: var(--gap-7x);
     padding: var(--padding-2x);

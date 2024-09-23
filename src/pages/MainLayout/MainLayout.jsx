@@ -1,6 +1,8 @@
+// Dependencies
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 
+// Components
 import NavigationBar from "../../ui/components/NavigationBar/NavigationBar";
 import SideBar from "../../ui/components/SideBar/SideBar";
 
@@ -17,6 +19,8 @@ function MainLayout() {
         </Wrapper>
     );
 }
+
+// Styled Components
 
 const Wrapper = styled.div`
     display: flex;

@@ -1,18 +1,21 @@
 // Dependencies
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 function Vedio() {
     return (
-        <Wrapper>
-            <Frame />
-            <DetailsWrapper>
-                <ChannelLogo />
-                <InfoWrapper>
-                    <VedioTitle />
-                    <ChannelName />
-                </InfoWrapper>
-            </DetailsWrapper>
-        </Wrapper>
+        <Link to={"/watch"}>
+            <Wrapper>
+                <Frame />
+                <DetailsWrapper>
+                    <ChannelLogo />
+                    <InfoWrapper>
+                        <VedioTitle />
+                        <ChannelName />
+                    </InfoWrapper>
+                </DetailsWrapper>
+            </Wrapper>
+        </Link>
     );
 }
 
@@ -24,12 +27,19 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: var(--gap-2x);
+    border-radius: var(--round-2x);
+
+    transition: all 0.2s ease-in-out;
 `;
 
 const Frame = styled.div`
     flex: 1;
     background-color: var(--primary-gray);
     border-radius: var(--round-2x);
+
+    &:hover {
+        background-color: var(--color-gray-200);
+    }
 `;
 
 const DetailsWrapper = styled.div`

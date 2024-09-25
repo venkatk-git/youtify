@@ -3,30 +3,52 @@ import styled from "styled-components";
 
 // Components
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function SideBar() {
+    const location = useLocation();
+
+    console.log(location.pathname);
+
     return (
         <Wrapper>
             <Section>
-                <LinkWrapper className="active" to={"/"}>
+                <LinkWrapper
+                    className={`${location.pathname == "/" ? "active" : ""}`}
+                    to={"/"}
+                >
                     <Icon icon="ic:round-home" style={{ color: "white" }} />
                     <Name>Home</Name>
                 </LinkWrapper>
-                <LinkWrapper to={"/smartplaylist"}>
+                <LinkWrapper
+                    className={`${
+                        location.pathname == "/smartplaylist" ? "active" : ""
+                    }`}
+                    to={"/smartplaylist"}
+                >
                     <Icon
                         icon="solar:playlist-bold"
                         style={{ color: "white" }}
                     />
                     <Name>Smart Playlist</Name>
                 </LinkWrapper>
-                <LinkWrapper to={"/watchparty"}>
+                <LinkWrapper
+                    className={`${
+                        location.pathname == "/watchparty" ? "active" : ""
+                    }`}
+                    to={"/watchparty"}
+                >
                     <Icon icon="mdi:theater" style={{ color: "white" }} />
                     <Name>Watch Party</Name>
                 </LinkWrapper>
             </Section>
             <Section>
-                <LinkWrapper to={"/settings"}>
+                <LinkWrapper
+                    className={`${
+                        location.pathname == "/settings" ? "active" : ""
+                    }`}
+                    to={"/settings"}
+                >
                     <Icon
                         icon="solar:settings-linear"
                         style={{ color: "white" }}

@@ -22,13 +22,12 @@ function NavigationBar() {
             <SearchFeild />
             <Filler />
             <WatchPartyButton>Watch</WatchPartyButton>
-            <Profile>s</Profile>
+            <Profile>T</Profile>
         </Wrapper>
     );
 }
 
 // Styled Components
-
 const Wrapper = styled.div`
     padding: var(--padding-3x) var(--padding-6x);
     display: flex;

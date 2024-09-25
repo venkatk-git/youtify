@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/HomePage/Home";
 import SearchPage from "./pages/SearchPage/SearchPage";
 import MainLayout from "./pages/MainLayout/MainLayout";
+import Playlist from "./pages/SmartPlaylist/Playlist";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                     <Route element={<MainLayout />}>
                         <Route path="/" element={<Home />} />
                         <Route path="/search" element={<SearchPage />} />
+                        <Route path="/smartplaylist" element={<Playlist />} />
                     </Route>
                 </Routes>
             </Router>

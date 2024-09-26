@@ -10,6 +10,7 @@ import Home from "./pages/HomePage/Home";
 import SearchPage from "./pages/SearchPage/SearchPage";
 import Playlist from "./pages/SmartPlaylist/Playlist";
 import PlayerPage from "./pages/PlayerPage/PlayerPage";
+import WatchPartyPage from "./pages/WatchPartyPage/WatchPartyPage";
 
 function App() {
     return (
@@ -26,9 +27,7 @@ function App() {
                             />
                             <Route
                                 path="/watchparty"
-                                element={
-                                    <h1>Collabrative video watching page</h1>
-                                }
+                                element={<WatchPartyPage />}
                             />
                             <Route
                                 path="/settings"

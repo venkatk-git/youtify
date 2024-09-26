@@ -26,7 +26,7 @@
     --border-gray-200: #3f3f3f;
 
     /* ---- BACKGROUND COLORS ---- */
-    --nav-search-bg: #121212;
+    --search-bg: #121212;
 
     /* ---- FONT SIZES ---- */
     --font-size-ss: 10px;
@@ -107,11 +107,13 @@
     /* GAPS */
     --gap-base: 4px;
     --gap-2x: 8px;
-    --gap-2x: 12px;
+    --gap-3x: 12px;
     --gap-4x: 16px;
     --gap-6x: 18px;
     --gap-7x: 24px;
     --gap-8x: 28px;
+    --gap-9x: 30px;
+    --gap-10x: 32px;
 
     /* ---- BORDER RADIUS ---- */
     --round-base: 4px;

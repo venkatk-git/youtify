@@ -40,7 +40,7 @@ const Wrapper = styled.div`
 
 const Input = styled.input`
     padding: var(--padding-2x);
-    background-color: var(--nav-search-bg);
+    background-color: var(--search-bg);
     border: 1px solid var(--border-gray-100);
     border-radius: 100px;
     border-top-right-radius: 0;

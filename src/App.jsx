@@ -12,11 +12,14 @@ import Playlist from "./pages/SmartPlaylist/Playlist";
 import PlayerPage from "./pages/PlayerPage/PlayerPage";
 import WatchPartyPage from "./pages/WatchPartyPage/WatchPartyPage";
 
+import Test from "./Test";
+
 function App() {
     return (
         <Wrapper>
             <Router>
                 <Routes>
+                    <Route path="/test" element={<Test />} />
                     <Route element={<MainLayout />}>
                         <Route element={<HomeLayout />}>
                             <Route path="/" element={<Home />} />

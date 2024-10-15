@@ -26,6 +26,8 @@ function App() {
         getUser(setUser);
     }, []);
 
+    console.log(user);
+
     return (
         <Wrapper>
             <Router>

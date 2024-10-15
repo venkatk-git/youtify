@@ -12,6 +12,7 @@ const getTime = (time) => {
     return `${Math.floor(mins)}:${secs}`;
 };
 
+// eslint-disable-next-line react/prop-types
 export function Timeline({ length }) {
     const [value, setValue] = useState(0);
 

@@ -12,14 +12,24 @@ import Playlist from "./pages/SmartPlaylist/Playlist";
 import PlayerPage from "./pages/PlayerPage/PlayerPage";
 import WatchPartyPage from "./pages/WatchPartyPage/WatchPartyPage";
 
-import Test from "./Test";
+// import Test from "./Test";
+import React from "react";
+
+// Services
+import { getUser } from "./services/userServices";
+import Login from "./pages/Login/Login";
 
 function App() {
+    const [user, setUser] = React.useState(null);
+
+    React.useEffect(() => {
+        getUser(setUser);
+    }, []);
+
     return (
         <Wrapper>
             <Router>
                 <Routes>
-                    <Route path="/test" element={<Test />} />
                     <Route element={<MainLayout />}>
                         <Route element={<HomeLayout />}>
                             <Route path="/" element={<Home />} />
@@ -36,6 +46,7 @@ function App() {
                                 path="/settings"
                                 element={<h1>Settings page</h1>}
                             />
+                            <Route path="/login" element={<Login />} />
                         </Route>
                         <Route element={<PlayerLayout />}>
                             <Route path="/watch" element={<PlayerPage />} />

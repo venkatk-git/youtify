@@ -3,11 +3,13 @@ import styled from "styled-components";
 
 // Components
 import Player from "./Player";
+import { Timeline } from "../../ui/components/Controlers/Controlers";
 
 function PlayerPage() {
     return (
         <Wrapper>
             <Player />
+            <Timeline length={920} />
             <VideoInfo>
                 <Title></Title>
                 <ChannelInfo>

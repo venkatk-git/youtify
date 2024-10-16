@@ -7,7 +7,14 @@ import Logo from "../Logo/Logo";
 import SearchFeild from "./SearchFeild";
 import WatchPartyButton from "./WatchPartyButton";
 
+// Context
+import { useUser } from "../../../context/UserContext";
+
 function NavigationBar() {
+    const user = useUser();
+
+    console.log(user);
+
     return (
         <Wrapper>
             <MenuIcon>
@@ -22,7 +29,10 @@ function NavigationBar() {
             <SearchFeild />
             <Filler />
             <WatchPartyButton>Watch</WatchPartyButton>
-            <Profile>T</Profile>
+
+            <Profile>
+                {user ? <Picture src={user.picture} /> : <SadFace>☹️</SadFace>}
+            </Profile>
         </Wrapper>
     );
 }
@@ -61,14 +71,23 @@ const Profile = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    background-color: royalblue;
+    background-color: var(--primary-red);
     width: 28px;
     height: 28px;
     text-transform: uppercase;
     border-radius: 50%;
     align-self: center;
     margin-left: var(--gap-6x);
+`;
+
+const Picture = styled.img`
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: inherit;
+`;
+
+const SadFace = styled.span`
+    margin-top: -4px;
 `;
 
 export default NavigationBar;

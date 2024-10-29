@@ -15,8 +15,10 @@ function SuperNav() {
 
     return (
         <Wrapper>
-            <Context>Please login to use all feature </Context>
-            <Button onClick={() => navigate("/login")}>Login</Button>
+            <Context>Please login to use all features </Context>
+            <Button onClick={() => navigate("/login")}>
+                Sign up (or) Login
+            </Button>
         </Wrapper>
     );
 }

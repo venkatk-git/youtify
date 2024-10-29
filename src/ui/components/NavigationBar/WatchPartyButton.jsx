@@ -20,6 +20,11 @@ const Button = styled.button`
     &:hover {
         background-color: var(--color-gray-200);
     }
+
+    & a {
+        color: inherit;
+        text-decoration: none;
+    }
 `;
 
 export default WatchPartyButton;

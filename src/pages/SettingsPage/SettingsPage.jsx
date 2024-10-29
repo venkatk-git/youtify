@@ -15,6 +15,90 @@ function SettingsPage() {
         dislikedTopics: [],
     });
 
+    const [newContentPreference, setNewContentPreference] = React.useState("");
+    const [newFavoriteChannel, setNewFavoriteChannel] = React.useState("");
+    const [newLanguagePreference, setNewLanguagePreference] =
+        React.useState("");
+    const [newDislikedTopic, setNewDislikedTopic] = React.useState("");
+    const [selectedVideoLength, setSelectedVideoLength] = React.useState("");
+
+    const handleAddContentPreference = () => {
+        if (newContentPreference) {
+            setValues((prevValues) => ({
+                ...prevValues,
+                contentPreferences: [
+                    ...prevValues.contentPreferences,
+                    newContentPreference,
+                ],
+            }));
+            setNewContentPreference("");
+        }
+    };
+
+    const handleAddFavoriteChannel = () => {
+        if (newFavoriteChannel) {
+            setValues((prevValues) => ({
+                ...prevValues,
+                favoriteChannels: [
+                    ...prevValues.favoriteChannels,
+                    newFavoriteChannel,
+                ],
+            }));
+            setNewFavoriteChannel("");
+        }
+    };
+
+    const handleAddLanguagePreference = () => {
+        if (newLanguagePreference) {
+            setValues((prevValues) => ({
+                ...prevValues,
+                languagePreferences: [
+                    ...prevValues.languagePreferences,
+                    newLanguagePreference,
+                ],
+            }));
+
+            setNewLanguagePreference("");
+        }
+    };
+
+    const handleAddDislikedTopic = () => {
+        if (newDislikedTopic) {
+            setValues((prevValues) => ({
+                ...prevValues,
+                dislikedTopics: [
+                    ...prevValues.dislikedTopics,
+                    newDislikedTopic,
+                ],
+            }));
+            setNewDislikedTopic("");
+        }
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setValues((prevValues) => ({
+            ...prevValues,
+            [name]: value,
+        }));
+    };
+
+    const handleAddVideoLength = () => {
+        if (
+            selectedVideoLength &&
+            !values.videoLengthPreferences.includes(selectedVideoLength)
+        ) {
+            setValues((prevValues) => ({
+                ...prevValues,
+                videoLengthPreferences: [
+                    ...prevValues.videoLengthPreferences,
+                    selectedVideoLength,
+                ],
+            }));
+            setSelectedVideoLength(""); // Clear selection after adding
+        }
+    };
+
     return (
         <Wrapper>
             <ContentWrapper>
@@ -26,7 +110,20 @@ function SettingsPage() {
                         >
                             Content preferences
                         </label>
-                        <input id="content_preference"></input>
+                        <InputWrapper>
+                            <input
+                                id="content_preference"
+                                value={newContentPreference}
+                                onChange={(e) =>
+                                    setNewContentPreference(e.target.value)
+                                }
+                            />
+                            <AddIcon
+                                icon="lets-icons:add-duotone"
+                                style={{ color: "white" }}
+                                onClick={handleAddContentPreference}
+                            />
+                        </InputWrapper>
                     </Field>
                     <Field>
                         <label
@@ -35,7 +132,20 @@ function SettingsPage() {
                         >
                             Favorite channels
                         </label>
-                        <input id="favorite_channels"></input>
+                        <InputWrapper>
+                            <input
+                                id="favorite_channels"
+                                value={newFavoriteChannel}
+                                onChange={(e) =>
+                                    setNewFavoriteChannel(e.target.value)
+                                }
+                            />
+                            <AddIcon
+                                icon="lets-icons:add-duotone"
+                                style={{ color: "white" }}
+                                onClick={handleAddFavoriteChannel}
+                            />
+                        </InputWrapper>
                     </Field>
                 </FieldWrapper>
                 <FieldWrapper>
@@ -46,33 +156,109 @@ function SettingsPage() {
                         >
                             Language preferences
                         </label>
-                        <input id="language_preferences"></input>
+                        <InputWrapper>
+                            <input
+                                id="language_preferences"
+                                value={newLanguagePreference}
+                                onChange={(e) =>
+                                    setNewLanguagePreference(e.target.value)
+                                }
+                            />
+                            <AddIcon
+                                icon="lets-icons:add-duotone"
+                                style={{ color: "white" }}
+                                onClick={handleAddLanguagePreference}
+                            />
+                        </InputWrapper>
                     </Field>
                     <Field>
-                        <label
-                            htmlFor="vedio_length_preferences"
-                            name="vedio length preferences"
-                        >
-                            Vedio length preferences
+                        <label htmlFor="video_length_preferences">
+                            Video length preferences
                         </label>
                         <SelectWrapper>
                             <Select
-                                name="vedio_length_preferences"
-                                id="vedio_length_preferences"
+                                name="video_length_preferences"
+                                id="video_length_preferences"
+                                value={selectedVideoLength}
+                                onChange={(e) =>
+                                    setSelectedVideoLength(e.target.value)
+                                }
                             >
-                                <option value="0_2">0 to 2 minites</option>
-                                <option value="2_5">2 to 5 minites</option>
-                                <option value="5_10">5 to 10 minites</option>
-                                <option value="10_15">0 to 2 minites</option>
-                                <option value="any">any</option>
+                                <option value="">Select a length</option>
+                                <option value="0_2">0 to 2 minutes</option>
+                                <option value="2_5">2 to 5 minutes</option>
+                                <option value="5_10">5 to 10 minutes</option>
+                                <option value="10_15">10 to 15 minutes</option>
+                                <option value="any">Any</option>
                             </Select>
                             <AddIcon
                                 icon="lets-icons:add-duotone"
                                 style={{ color: "white" }}
+                                onClick={handleAddVideoLength}
                             />
                         </SelectWrapper>
                     </Field>
                 </FieldWrapper>
+                <FieldWrapper>
+                    <Field>
+                        <label htmlFor="disliked_topics" name="Disliked topics">
+                            Disliked topics
+                        </label>
+                        <InputWrapper>
+                            <input
+                                id="disliked_topics"
+                                value={newDislikedTopic}
+                                onChange={(e) =>
+                                    setNewDislikedTopic(e.target.value)
+                                }
+                            />
+                            <AddIcon
+                                icon="lets-icons:add-duotone"
+                                style={{ color: "white" }}
+                                onClick={handleAddDislikedTopic}
+                            />
+                        </InputWrapper>
+                    </Field>
+                    <Field>
+                        <label
+                            htmlFor="refresh_frequency_rate"
+                            name="refresh frequency rate"
+                            onChange={handleChange}
+                        >
+                            Refresh frequency rate
+                        </label>
+                        <SelectWrapper>
+                            <Select
+                                name="refresh_frequency_rate"
+                                id="refresh_frequency_rate"
+                                onChange={(e) =>
+                                    setValues({
+                                        ...values,
+                                        refreshFrequency: e.target.value,
+                                    })
+                                }
+                            >
+                                <option value="0_2">Everyday</option>
+                                <option value="2_5">2 days once</option>
+                                <option value="5_10">5 days once</option>
+                                <option value="10_15">Weekly once</option>
+                                <option value="any">Monthly once</option>
+                            </Select>
+                        </SelectWrapper>
+                    </Field>
+                </FieldWrapper>
+                <TextAreaWrapper>
+                    <label>Your goal</label>
+                    <TextArea
+                        rows="8"
+                        cols="60"
+                        value={values.goal}
+                        onChange={(e) =>
+                            setValues({ ...values, goal: e.target.value })
+                        }
+                    ></TextArea>
+                </TextAreaWrapper>
+                <Button onClick={() => console.log(values)}>Submit</Button>
             </ContentWrapper>
         </Wrapper>
     );
@@ -84,16 +270,13 @@ export default SettingsPage;
 
 const Wrapper = styled.div`
     padding: var(--padding-6x);
-    width: 100%;
     display: flex;
 `;
 
 const ContentWrapper = styled.div`
-    margin-left: 100px;
-    max-width: 1000px;
+    margin-left: 300px;
     display: flex;
     flex-direction: column;
-    flex-basis: 826px;
     gap: var(--gap-8x);
 `;
 
@@ -116,11 +299,18 @@ const Field = styled.div`
         font-size: var(--font-size-sm);
         padding: 0 var(--padding-2x);
         font-weight: var(--semibold);
+        width: 155px;
     }
 
     & input:focus {
         border-color: var(--color-gray-600);
     }
+`;
+
+const InputWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    gap: var(--gap-2x);
 `;
 
 const Select = styled.select`
@@ -132,7 +322,7 @@ const Select = styled.select`
     font-size: var(--font-size-sm);
     font-weight: var(--semibold);
     color: #979797;
-    width: 160px;
+    width: 175px;
     appearance: none; /* Remove default arrow */
     background-image: url("../../../assets/arrow-down-sign-to-navigate.png");
     background-repeat: no-repeat;
@@ -149,4 +339,37 @@ const SelectWrapper = styled.div`
 const AddIcon = styled(Icon)`
     font-size: 36px;
     cursor: pointer;
+`;
+
+const TextAreaWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-2x);
+`;
+
+const TextArea = styled.textarea`
+    border-radius: var(--round-base);
+    padding: var(--padding-2x);
+    background-color: var(--search-bg);
+    border: 1px solid var(--border-gray-100);
+    font-size: var(--font-size-sm);
+    font-weight: var(--semibold);
+    color: #979797;
+    width: fit-content;
+`;
+
+const Button = styled.button`
+    width: 240px;
+    align-self: center;
+    height: 42px;
+    border-radius: var(--round-base);
+    background-color: var(--primary-red);
+    color: white;
+    font-size: 1rem;
+    font-weight: var(--bold);
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--primary-red-100);
+    }
 `;

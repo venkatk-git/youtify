@@ -9,11 +9,10 @@ import WatchPartyButton from "./WatchPartyButton";
 
 // Context
 import { useUser } from "../../../context/UserContext";
+import { Link } from "react-router-dom";
 
 function NavigationBar() {
     const user = useUser();
-
-    console.log(user);
 
     return (
         <Wrapper>
@@ -28,7 +27,9 @@ function NavigationBar() {
             <Filler />
             <SearchFeild />
             <Filler />
-            <WatchPartyButton>Watch</WatchPartyButton>
+            <WatchPartyButton>
+                <Link to="/watchparty">Watch</Link>
+            </WatchPartyButton>
 
             <Profile>
                 {user ? <Picture src={user.picture} /> : <SadFace>☹️</SadFace>}

@@ -2,8 +2,20 @@ import React from "react";
 import styled from "styled-components";
 
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { useUser } from "../../context/UserContext";
+
+import { API_ENDPOINT } from "../../utils/constants";
+
+// eslint-disable-next-line react/prop-types
+function Tag({ children }) {
+    return <TagWrapper>{children}</TagWrapper>;
+}
 
 function SettingsPage() {
+    const user = useUser();
+
+    console.log(user);
+
     const [values, setValues] = React.useState({
         contentPreferences: [],
         favoriteChannels: [],
@@ -86,16 +98,48 @@ function SettingsPage() {
     const handleAddVideoLength = () => {
         if (
             selectedVideoLength &&
-            !values.videoLengthPreferences.includes(selectedVideoLength)
+            !values.vedioLengthPreferences.includes(selectedVideoLength)
         ) {
             setValues((prevValues) => ({
                 ...prevValues,
-                videoLengthPreferences: [
-                    ...prevValues.videoLengthPreferences,
+                vedioLengthPreferences: [
+                    ...prevValues.vedioLengthPreferences,
                     selectedVideoLength,
                 ],
             }));
             setSelectedVideoLength(""); // Clear selection after adding
+        }
+    };
+
+    const handleSubmit = async () => {
+        try {
+            const postData = {
+                username: user.name,
+                email: user.email,
+                details: {
+                    ...values,
+                    refreshFrequency: "weekly",
+                },
+            };
+
+            console.log(postData);
+
+            const response = await fetch(`${API_ENDPOINT}/api/users`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(postData),
+            });
+
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+
+            const data = await response.json();
+            console.log("User created:", data);
+        } catch (error) {
+            console.error("Error creating user:", error);
         }
     };
 
@@ -110,6 +154,13 @@ function SettingsPage() {
                         >
                             Content preferences
                         </label>
+                        <TagsWrapper>
+                            {values.contentPreferences?.map((val, index) => (
+                                <Tag key={`content_preference-${val}-${index}`}>
+                                    {val}
+                                </Tag>
+                            ))}
+                        </TagsWrapper>
                         <InputWrapper>
                             <input
                                 id="content_preference"
@@ -132,6 +183,13 @@ function SettingsPage() {
                         >
                             Favorite channels
                         </label>
+                        <TagsWrapper>
+                            {values.favoriteChannels?.map((val, index) => (
+                                <Tag key={`favorite_channels-${val}-${index}`}>
+                                    {val}
+                                </Tag>
+                            ))}
+                        </TagsWrapper>
                         <InputWrapper>
                             <input
                                 id="favorite_channels"
@@ -156,6 +214,15 @@ function SettingsPage() {
                         >
                             Language preferences
                         </label>
+                        <TagsWrapper>
+                            {values.languagePreferences?.map((val, index) => (
+                                <Tag
+                                    key={`language_preferences-${val}-${index}`}
+                                >
+                                    {val}
+                                </Tag>
+                            ))}
+                        </TagsWrapper>
                         <InputWrapper>
                             <input
                                 id="language_preferences"
@@ -175,6 +242,17 @@ function SettingsPage() {
                         <label htmlFor="video_length_preferences">
                             Video length preferences
                         </label>
+                        <TagsWrapper>
+                            {values.vedioLengthPreferences?.map(
+                                (val, index) => (
+                                    <Tag
+                                        key={`video_length_preferences-${val}-${index}`}
+                                    >
+                                        {val}
+                                    </Tag>
+                                )
+                            )}
+                        </TagsWrapper>
                         <SelectWrapper>
                             <Select
                                 name="video_length_preferences"
@@ -204,6 +282,13 @@ function SettingsPage() {
                         <label htmlFor="disliked_topics" name="Disliked topics">
                             Disliked topics
                         </label>
+                        <TagsWrapper>
+                            {values.dislikedTopics?.map((val, index) => (
+                                <Tag key={`disliked_topics-${val}-${index}`}>
+                                    {val}
+                                </Tag>
+                            ))}
+                        </TagsWrapper>
                         <InputWrapper>
                             <input
                                 id="disliked_topics"
@@ -227,6 +312,7 @@ function SettingsPage() {
                         >
                             Refresh frequency rate
                         </label>
+                        <TagsWrapper></TagsWrapper>
                         <SelectWrapper>
                             <Select
                                 name="refresh_frequency_rate"
@@ -258,7 +344,7 @@ function SettingsPage() {
                         }
                     ></TextArea>
                 </TextAreaWrapper>
-                <Button onClick={() => console.log(values)}>Submit</Button>
+                <Button onClick={handleSubmit}>Submit</Button>
             </ContentWrapper>
         </Wrapper>
     );
@@ -372,4 +458,23 @@ const Button = styled.button`
     &:hover {
         background-color: var(--primary-red-100);
     }
+`;
+
+const TagsWrapper = styled.div`
+    max-width: 170px;
+    overflow-x: auto;
+    display: flex;
+    gap: var(--gap-base);
+    padding-bottom: 4px;
+    &::-webkit-scrollbar {
+        height: 8px; /* Adjust height */
+    }
+`;
+
+const TagWrapper = styled.div`
+    font-size: var(--font-size-ss);
+    background-color: var(--color-gray-200);
+    width: fit-content;
+    padding: var(--padding-2x) var(--padding-4x);
+    border-radius: 100px;
 `;

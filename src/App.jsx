@@ -13,6 +13,7 @@ import Playlist from "./pages/SmartPlaylist/Playlist";
 import PlayerPage from "./pages/PlayerPage/PlayerPage";
 import WatchPartyPage from "./pages/WatchPartyPage/WatchPartyPage";
 import Login from "./pages/Login/Login";
+import SettingsPage from "./pages/SettingsPage/SettingsPage";
 // import Test from "./Test";
 
 // Contexts
@@ -64,38 +65,37 @@ const Wrapper = styled.div`
     overflow-x: hidden;
 `;
 
-import io from "socket.io-client";
-import SettingsPage from "./pages/SettingsPage/SettingsPage";
-const socket = io("http://localhost:5000"); // Replace with your server's address
+// import io from "socket.io-client";
+// const socket = io("http://localhost:5000"); // Replace with your server's address
 
-console.log(2);
+// console.log(2);
 
-// Connect to the server
-socket.on("connect", () => {
-    console.log("Connected to the server");
+// // Connect to the server
+// socket.on("connect", () => {
+//     console.log("Connected to the server");
 
-    // Emit events to test room creation
-    socket.emit("room:create", {
-        roomId: "room123",
-        adminName: "admin123",
-        vedio: "vedio.mp4",
-    });
+//     // Emit events to test room creation
+//     socket.emit("room:create", {
+//         roomId: "room123",
+//         adminName: "admin123",
+//         vedio: "vedio.mp4",
+//     });
 
-    // // Emit events to test joining the room
-    // socket.emit("room:join", {
-    //     roomId: "room123",
-    //     user: "user123",
-    // });
-});
+//     // // Emit events to test joining the room
+//     // socket.emit("room:join", {
+//     //     roomId: "room123",
+//     //     user: "user123",
+//     // });
+// });
 
-// Listen for custom events like 'user-joined'
-socket.on("user-joined", (data) => {
-    console.log("User joined:", data);
-});
+// // Listen for custom events like 'user-joined'
+// socket.on("user-joined", (data) => {
+//     console.log("User joined:", data);
+// });
 
-// Disconnect event
-socket.on("disconnect", () => {
-    console.log("Disconnected from the server");
-});
+// // Disconnect event
+// socket.on("disconnect", () => {
+//     console.log("Disconnected from the server");
+// });
 
 export default App;

@@ -8,8 +8,6 @@ import { Link, useLocation } from "react-router-dom";
 function SideBar() {
     const location = useLocation();
 
-    console.log(location.pathname);
-
     return (
         <Wrapper>
             <Section>

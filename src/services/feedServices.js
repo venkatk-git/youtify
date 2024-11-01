@@ -1,4 +1,4 @@
-import { API_ENDPOINT } from "../utils/constants";
+import { API_ENDPOINT, CONTENT, GENERIC, GOAL } from "../utils/constants";
 
 export async function fetchGenericFeed(email, pageToken = "") {
     const url = new URL(`${API_ENDPOINT}/api/feed/generic`);
@@ -7,17 +7,19 @@ export async function fetchGenericFeed(email, pageToken = "") {
         url.searchParams.append("pageToken", pageToken);
     }
 
-    const response = await fetch(url);
+    // const response = await fetch(url);
 
-    if (!response.ok) {
-        throw new Error("Failed to fetch generic feed");
-    }
+    // if (!response.ok) {
+    //     throw new Error("Failed to fetch generic feed");
+    // }
 
-    const data = await response.json();
-    return {
-        videos: data.items,
-        nextPageToken: data.nextPageToken,
-    };
+    // const data = await response.json();
+    // return {
+    //     videos: data.items,
+    //     nextPageToken: data.nextPageToken,
+    // };
+
+    return GENERIC;
 }
 
 export async function fetchContentChannelsFeed(email, pageToken = "") {
@@ -27,16 +29,18 @@ export async function fetchContentChannelsFeed(email, pageToken = "") {
         url.searchParams.append("pageToken", pageToken);
     }
 
-    const response = await fetch(url);
-    if (!response.ok) {
-        throw new Error("Failed to fetch content and channels feed");
-    }
+    // const response = await fetch(url);
+    // if (!response.ok) {
+    //     throw new Error("Failed to fetch content and channels feed");
+    // }
 
-    const data = await response.json();
-    return {
-        videos: data.items,
-        nextPageToken: data.nextPageToken,
-    };
+    // const data = await response.json();
+    // return {
+    //     videos: data.items,
+    //     nextPageToken: data.nextPageToken,
+    // };
+
+    return CONTENT;
 }
 
 export async function fetchGoalBasedFeed(email, pageToken = "") {
@@ -46,14 +50,16 @@ export async function fetchGoalBasedFeed(email, pageToken = "") {
         url.searchParams.append("pageToken", pageToken);
     }
 
-    const response = await fetch(url);
-    if (!response.ok) {
-        throw new Error("Failed to fetch goal-based feed");
-    }
+    // const response = await fetch(url);
+    // if (!response.ok) {
+    //     throw new Error("Failed to fetch goal-based feed");
+    // }
 
-    const data = await response.json();
-    return {
-        videos: data.items,
-        nextPageToken: data.nextPageToken,
-    };
+    // const data = await response.json();
+    // return {
+    //     videos: data.items,
+    //     nextPageToken: data.nextPageToken,
+    // };
+
+    return GOAL;
 }

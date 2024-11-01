@@ -2,11 +2,14 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-function Vedio() {
+// eslint-disable-next-line react/prop-types
+function Vedio({ videoId }) {
+    const thumbnailurl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+
     return (
         <Link to={"/watch"}>
             <Wrapper>
-                <Frame />
+                <Frame src={thumbnailurl} />
                 <DetailsWrapper>
                     <ChannelLogo />
                     <InfoWrapper>
@@ -32,7 +35,7 @@ const Wrapper = styled.div`
     transition: all 0.2s ease-in-out;
 `;
 
-const Frame = styled.div`
+const Frame = styled.img`
     flex: 1;
     background-color: var(--primary-gray);
     border-radius: var(--round-2x);

@@ -1,17 +1,38 @@
 // Dependencies
 import styled from "styled-components";
 import Section from "./Section";
-import { fetchGenericFeed } from "../../services/feedServices";
+import {
+    fetchGenericFeed,
+    fetchGoalBasedFeed,
+} from "../../services/feedServices";
+import React from "react";
 
 function Feed() {
-    const res = fetchGenericFeed("johndoe@example.com");
+    const [generic, setGeneric] = React.useState([]);
+    const [goal, setGoal] = React.useState([]);
 
-    console.log(res);
+    React.useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const genericData = await fetchGenericFeed();
+                const goalData = await fetchGoalBasedFeed();
+
+                setGeneric(genericData);
+                setGoal(goalData);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    console.log(generic);
 
     return (
         <Wrapper>
-            <Section title={"Section 01"} />
-            <Section title={"Section 02"} />
+            <Section title={"General"} videos={generic} />
+            <Section title={"Goal"} videos={goal} />
         </Wrapper>
     );
 }

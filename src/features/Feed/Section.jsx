@@ -4,11 +4,13 @@ import styled from "styled-components";
 // Components
 import Vedio from "./Vedio";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import React from "react";
+
+import { v4 } from "uuid";
 
 // eslint-disable-next-line react/prop-types
-function Section({ title }) {
-    const id = React.useId();
+function Section({ title, videos }) {
+    console.log(videos);
+
     return (
         <Wrapper>
             <Title>
@@ -22,8 +24,8 @@ function Section({ title }) {
                 {title}
             </Title>
             <GridWrapper>
-                {Array.from({ length: 5 }).map((index) => (
-                    <Vedio key={`${id}-${index}`} />
+                {videos?.map((video) => (
+                    <Vedio key={`${v4()}`} videoId={video.id.videoId} />
                 ))}
             </GridWrapper>
             <ShowMore>

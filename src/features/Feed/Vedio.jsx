@@ -1,10 +1,27 @@
 // Dependencies
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { getVideoTitle } from "../../services/videoServices";
+import React from "react";
 
 // eslint-disable-next-line react/prop-types
 function Vedio({ videoId }) {
     const thumbnailurl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+
+    const [title, setTitle] = React.useState();
+
+    React.useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getVideoTitle(videoId);
+                setTitle(data);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     return (
         <Link to={"/watch"}>
@@ -13,7 +30,7 @@ function Vedio({ videoId }) {
                 <DetailsWrapper>
                     <ChannelLogo />
                     <InfoWrapper>
-                        <VedioTitle />
+                        <VedioTitle>{title}</VedioTitle>
                         <ChannelName />
                     </InfoWrapper>
                 </DetailsWrapper>
@@ -68,7 +85,15 @@ const VedioTitle = styled.div`
     height: 22px;
     width: 95%;
     border-radius: var(--round-base);
-    background-color: var(--primary-gray);
+    text-decoration: none;
+    /* background-color: var(--primary-gray); */
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 10px; 
+    font-size: 14px; 
+    color: white;
 `;
 
 const ChannelName = styled.div`

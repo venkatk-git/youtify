@@ -1,25 +1,24 @@
-const YOUTUBE_API_KEY = "AIzaSyDw81ieQ_oas63xgP0i6GJUEUwgMzzcoWo";
-const YOUTUBE_API_URL = "https://www.googleapis.com/youtube/v3/videos";
+import { API_ENDPOINT } from "../utils/constants";
 
 export async function getVideoTitle(videoId) {
-    const url = `${YOUTUBE_API_URL}?id=${videoId}&key=${YOUTUBE_API_KEY}&part=snippet`;
+    const url = `${API_ENDPOINT}/api/video/gettitle?videoId=${videoId}`; // Call backend API instead of YouTube API
 
     try {
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(
-                `Error fetching video title: ${response.statusText}`
+                `Error fetching video title from backend: ${response.statusText}`
             );
         }
         const data = await response.json();
 
-        if (data.items && data.items.length > 0) {
-            return data.items[0].snippet.title;
+        if (data.title) {
+            return data.title;
         } else {
-            throw new Error("Video not found");
+            throw new Error("Video title not found");
         }
     } catch (error) {
-        console.error("Error fetching video title:", error);
+        console.error("Error fetching video title from backend:", error);
         throw error;
     }
 }

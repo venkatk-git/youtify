@@ -24,9 +24,12 @@ function Section({ title, videos }) {
                 {title}
             </Title>
             <GridWrapper>
-                {videos?.map((video) => (
-                    <Vedio key={`${v4()}`} videoId={video.id.videoId} />
-                ))}
+                {
+                    // eslint-disable-next-line react/prop-types
+                    videos?.map((video) => (
+                        <Vedio key={`${v4()}`} videoId={video.id.videoId} />
+                    ))
+                }
             </GridWrapper>
             <ShowMore>
                 <Line />

@@ -1,8 +1,13 @@
 // Dependencies
 import styled from "styled-components";
 import Section from "./Section";
+import { fetchGenericFeed } from "../../services/feedServices";
 
 function Feed() {
+    const res = fetchGenericFeed("johndoe@example.com");
+
+    console.log(res);
+
     return (
         <Wrapper>
             <Section title={"Section 01"} />

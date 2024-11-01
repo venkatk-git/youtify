@@ -4,9 +4,11 @@ import styled from "styled-components";
 // Components
 import Vedio from "./Vedio";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import React from "react";
 
 // eslint-disable-next-line react/prop-types
 function Section({ title }) {
+    const id = React.useId();
     return (
         <Wrapper>
             <Title>
@@ -21,7 +23,7 @@ function Section({ title }) {
             </Title>
             <GridWrapper>
                 {Array.from({ length: 5 }).map((index) => (
-                    <Vedio key={index} />
+                    <Vedio key={`${id}-${index}`} />
                 ))}
             </GridWrapper>
             <ShowMore>

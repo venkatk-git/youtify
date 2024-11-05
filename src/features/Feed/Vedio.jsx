@@ -1,7 +1,7 @@
 // Dependencies
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { getVideoTitle } from "../../services/videoServices";
+import { getChannelInfo, getVideoTitle } from "../../services/videoServices";
 import React from "react";
 
 // eslint-disable-next-line react/prop-types
@@ -9,12 +9,15 @@ function Vedio({ videoId }) {
     const thumbnailurl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
 
     const [title, setTitle] = React.useState();
+    const [channelInfo, setChannelInfo] = React.useState();
 
     React.useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await getVideoTitle(videoId);
-                setTitle(data);
+                const title = await getVideoTitle(videoId);
+                const channelInfo = await getChannelInfo(videoId);
+                setTitle(title);
+                setChannelInfo(channelInfo);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -24,22 +27,26 @@ function Vedio({ videoId }) {
     }, []);
 
     return (
-        <Link to={"/watch"}>
+        <LinkWrapper to={"/watch"}>
             <Wrapper>
                 <Frame src={thumbnailurl} />
                 <DetailsWrapper>
-                    <ChannelLogo />
+                    <ChannelLogo src={channelInfo?.channelLogo} />
                     <InfoWrapper>
                         <VedioTitle>{title}</VedioTitle>
-                        <ChannelName />
+                        <ChannelName>{channelInfo?.channelName}</ChannelName>
                     </InfoWrapper>
                 </DetailsWrapper>
             </Wrapper>
-        </Link>
+        </LinkWrapper>
     );
 }
 
 // Styled Components
+
+const LinkWrapper = styled(Link)`
+    text-decoration: none;
+`;
 
 const Wrapper = styled.div`
     width: 100%;
@@ -67,9 +74,9 @@ const DetailsWrapper = styled.div`
     gap: var(--gap-2x);
 `;
 
-const ChannelLogo = styled.div`
-    width: 34px;
-    height: 32px;
+const ChannelLogo = styled.img`
+    width: 28px;
+    height: 24px;
     border-radius: 50%;
     background-color: var(--primary-gray);
 `;
@@ -83,24 +90,28 @@ const InfoWrapper = styled.div`
 
 const VedioTitle = styled.div`
     height: 22px;
-    width: 95%;
+    width: 85%;
     border-radius: var(--round-base);
-    text-decoration: none;
-    /* background-color: var(--primary-gray); */
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 0 10px; 
-    font-size: 14px; 
+    padding: 0 10px;
+    font-size: 14px;
     color: white;
 `;
 
 const ChannelName = styled.div`
     height: 22px;
-    width: 75%;
+    width: 85%;
     border-radius: var(--round-base);
-    background-color: var(--primary-gray);
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 10px;
+    font-size: 13px;
+    color: var(--color-gray-800);
 `;
 
-export default Vedio;
+export default React.memo(Vedio);

@@ -1,21 +1,49 @@
 // Dependencies
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { v4 } from "uuid";
+
+// Services
+import React from "react";
+import { extractVideoId } from "../../utils/helpers.js";
 
 function WatchPartyPage() {
+    const [videoUrl, setVideoUrl] = React.useState("");
+    const [roomId, setRoomId] = React.useState(v4());
+    const [joinRoomId, setJoinRoomId] = React.useState("");
+
+    const handleCreateRoom = () => {
+        const newRoomId = v4();
+        setRoomId(newRoomId);
+    };
+
+    const handleJoinRoom = () => {};
+
     return (
         <Wrapper>
             <SectionWrapper>
-                <Input placeholder="Paste video URL" />
-                <Link to="/watch">
-                    <Button>Create</Button>
+                <Input
+                    placeholder="Paste video URL"
+                    value={videoUrl}
+                    onChange={(e) => setVideoUrl(e.target.value)}
+                />
+                <Link
+                    to={`/watch?type=createRoom&videoId=${extractVideoId(
+                        videoUrl
+                    )}&roomId=${roomId}`}
+                >
+                    <Button onClick={handleCreateRoom}>Create</Button>
                 </Link>
             </SectionWrapper>
             <Line />
             <SectionWrapper>
-                <Input placeholder="Enter party id" />
-                <Link to="/watch">
-                    <Button>Join</Button>
+                <Input
+                    placeholder="Enter party id"
+                    value={joinRoomId}
+                    onChange={(e) => setJoinRoomId(e.target.value)}
+                />
+                <Link to={`/watch?type=joinRoom&roomId=${joinRoomId}`}> 
+                    <Button onClick={handleJoinRoom}>Join</Button>
                 </Link>
             </SectionWrapper>
         </Wrapper>

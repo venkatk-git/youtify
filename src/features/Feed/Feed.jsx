@@ -27,8 +27,6 @@ function Feed() {
         fetchData();
     }, []);
 
-    console.log(generic);
-
     return (
         <Wrapper>
             <Section title={"General"} videos={generic} />

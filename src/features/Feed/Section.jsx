@@ -9,8 +9,6 @@ import { v4 } from "uuid";
 
 // eslint-disable-next-line react/prop-types
 function Section({ title, videos }) {
-    console.log(videos);
-
     return (
         <Wrapper>
             <Title>

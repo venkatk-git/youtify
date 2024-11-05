@@ -4,11 +4,48 @@ import styled from "styled-components";
 // Components
 import Player from "./Player";
 import { Timeline } from "../../ui/components/Controlers/Controlers";
+import React from "react";
+
+// Handlers
+import {
+    connectSocket,
+    createRoom,
+    joinRoom,
+} from "../../services/socketServices";
+import { useSearchParams } from "react-router-dom";
 
 function PlayerPage() {
+    const [searchParams] = useSearchParams();
+    const [videoId, setVideoId] = React.useState("");
+
+    React.useEffect(() => {
+        connectSocket();
+        const type = searchParams.get("type");
+
+        if (type === "createRoom") {
+            const roomId = searchParams.get("roomId");
+            const newVideoId = searchParams.get("videoId");
+            setVideoId(newVideoId);
+            const adminName = "Venkat";
+
+            createRoom(roomId, adminName, newVideoId);
+        }
+
+        if (type === "joinRoom") {
+            const roomId = searchParams.get("roomId");
+
+            // Join the room and get the room's videoId
+            joinRoom(roomId, "Venkat2", (data) => {
+                if (data && data.videoId) {
+                    setVideoId(data.videoId);
+                }
+            });
+        }
+    }, [videoId]);
+
     return (
         <Wrapper>
-            <Player />
+            <Player videoId={videoId} />
             <Timeline length={920} />
             <VideoInfo>
                 <Title></Title>

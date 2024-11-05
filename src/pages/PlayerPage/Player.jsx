@@ -1,8 +1,23 @@
 // Dependencies
 import styled from "styled-components";
 
-function Player() {
-    return <Wrapper></Wrapper>;
+// eslint-disable-next-line react/prop-types
+function Player({ videoId }) {
+    return (
+        <Wrapper>
+            {videoId ? (
+                <Iframe
+                    src={`https://www.youtube.com/embed/${videoId}`}
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                />
+            ) : (
+                <Placeholder>No video selected</Placeholder>
+            )}
+        </Wrapper>
+    );
 }
 
 // Styled Components
@@ -15,4 +30,17 @@ const Wrapper = styled.div`
     border-radius: var(--round-2x);
     aspect-ratio: 16 / 9;
 `;
+
+const Iframe = styled.iframe`
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: var(--round-2x);
+`;
+
+const Placeholder = styled.div`
+    color: var(--text-color);
+    font-size: 16px;
+`;
+
 export default Player;

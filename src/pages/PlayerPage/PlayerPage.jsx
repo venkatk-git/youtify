@@ -7,19 +7,28 @@ import { Timeline } from "../../ui/components/Controlers/Controlers";
 import React from "react";
 
 // Handlers
-import {
-    connectSocket,
-    createRoom,
-    joinRoom,
-} from "../../services/socketServices";
+import { createRoom, joinRoom } from "../../services/socketServices";
 import { useSearchParams } from "react-router-dom";
+import { getVideoInfo } from "../../services/videoServices";
 
 function PlayerPage() {
     const [searchParams] = useSearchParams();
     const [videoId, setVideoId] = React.useState("");
+    const [videoTitle, setVideoTitle] = React.useState("");
+    const [videoDescription, setVideoDescription] = React.useState("");
+
+    const setVideoDetails = async (
+        videoId,
+        setVideoTitle,
+        setVideoDescription
+    ) => {
+        const videoDetails = await getVideoInfo(videoId);
+
+        setVideoTitle(videoDetails.title);
+        setVideoDescription(videoDetails.description);
+    };
 
     React.useEffect(() => {
-        connectSocket();
         const type = searchParams.get("type");
 
         if (type === "createRoom") {
@@ -27,8 +36,9 @@ function PlayerPage() {
             const newVideoId = searchParams.get("videoId");
             setVideoId(newVideoId);
             const adminName = "Venkat";
-
             createRoom(roomId, adminName, newVideoId);
+
+            setVideoDetails(newVideoId, setVideoTitle, setVideoDescription);
         }
 
         if (type === "joinRoom") {
@@ -38,23 +48,28 @@ function PlayerPage() {
             joinRoom(roomId, "Venkat2", (data) => {
                 if (data && data.videoId) {
                     setVideoId(data.videoId);
+                    setVideoDetails(
+                        data.videoId,
+                        setVideoTitle,
+                        setVideoDescription
+                    );
                 }
             });
         }
-    }, [videoId]);
+    }, [searchParams]);
 
     return (
         <Wrapper>
             <Player videoId={videoId} />
             <Timeline length={920} />
             <VideoInfo>
-                <Title></Title>
+                <Title>{videoTitle}</Title>
                 <ChannelInfo>
                     <ChannelProfile></ChannelProfile>
                     <ChannelName></ChannelName>
                 </ChannelInfo>
             </VideoInfo>
-            <Description></Description>
+            <Description>{videoDescription}</Description>
         </Wrapper>
     );
 }
@@ -84,7 +99,7 @@ const VideoInfo = styled.div`
 const Title = styled.div`
     width: 80%;
     height: 24px;
-    background-color: var(--primary-gray);
+    /* background-color: var(--primary-gray); */
     border-radius: var(--round-base);
 `;
 
@@ -110,7 +125,10 @@ const ChannelName = styled.div`
 
 const Description = styled.div`
     grid-area: description;
+    padding: var(--padding-2x);
+    font-size: var(--font-size-s);
     height: 100%;
+    line-height: 1.4;
     border-radius: var(--round-2x);
     background-color: var(--primary-gray);
 `;

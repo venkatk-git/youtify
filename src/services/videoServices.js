@@ -48,3 +48,33 @@ export async function getChannelInfo(videoId) {
         throw error;
     }
 }
+
+export async function getVideoInfo(videoId) {
+    const url = `${API_ENDPOINT}/api/video/getVideoInfo?videoId=${videoId}`; // Call backend API instead of YouTube API
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(
+                `Error fetching video info from backend: ${response.statusText}`
+            );
+        }
+
+        const data = await response.json();
+
+        if (data.title && data.description) {
+            return {
+                title: data.title,
+                description: data.description,
+                publishedAt: data.publishedAt,
+                thumbnails: data.thumbnails,
+                channelTitle: data.channelTitle,
+            };
+        } else {
+            throw new Error("Video info not found");
+        }
+    } catch (error) {
+        console.error("Error fetching video info from backend:", error);
+        throw error;
+    }
+}

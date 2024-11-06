@@ -3,21 +3,19 @@ import { SOCKET_ENDPOINT } from "../utils/constants";
 
 const socket = io(SOCKET_ENDPOINT); // Replace with your server's address
 
-import { extractVideoId } from "../utils/helpers";
-
 export function connectSocket() {
     if (!socket.connected) {
         socket.connect();
     }
 }
 
-export function createRoom(roomId, adminName, videoUrl) {
+export function createRoom(roomId, adminName, videoId) {
     connectSocket();
 
     socket.emit("room:create", {
         roomId,
         adminName,
-        video: extractVideoId(videoUrl),
+        video: videoId,
     });
 }
 

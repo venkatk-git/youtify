@@ -8,7 +8,9 @@ import React from "react";
 import { extractVideoId } from "../../utils/helpers.js";
 
 function WatchPartyPage() {
-    const [videoUrl, setVideoUrl] = React.useState("");
+    const [videoUrl, setVideoUrl] = React.useState(
+        "https://youtu.be/4YW3tn3H3xA?feature=shared"
+    );
     const [roomId, setRoomId] = React.useState(v4());
     const [joinRoomId, setJoinRoomId] = React.useState("");
 
@@ -27,6 +29,7 @@ function WatchPartyPage() {
                     value={videoUrl}
                     onChange={(e) => setVideoUrl(e.target.value)}
                 />
+
                 <Link
                     to={`/watch?type=createRoom&videoId=${extractVideoId(
                         videoUrl
@@ -42,7 +45,7 @@ function WatchPartyPage() {
                     value={joinRoomId}
                     onChange={(e) => setJoinRoomId(e.target.value)}
                 />
-                <Link to={`/watch?type=joinRoom&roomId=${joinRoomId}`}> 
+                <Link to={`/watch?type=joinRoom&roomId=${joinRoomId}`}>
                     <Button onClick={handleJoinRoom}>Join</Button>
                 </Link>
             </SectionWrapper>

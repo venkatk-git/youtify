@@ -1,21 +1,27 @@
 // Dependencies
 import styled from "styled-components";
+import { io } from "socket.io-client";
+import React from "react";
 
 // Components
 import Player from "./Player";
 import { Timeline } from "../../ui/components/Controlers/Controlers";
-import React from "react";
 
 // Handlers
-import { createRoom, joinRoom } from "../../services/socketServices";
+import { createRoom, getSocket, joinRoom } from "../../services/socketServices";
 import { useSearchParams } from "react-router-dom";
 import { getVideoInfo } from "../../services/videoServices";
+import { SOCKET_ENDPOINT } from "../../utils/constants";
 
 function PlayerPage() {
     const [searchParams] = useSearchParams();
     const [videoId, setVideoId] = React.useState("");
+    const [roomId, setRoomId] = React.useState("");
     const [videoTitle, setVideoTitle] = React.useState("");
     const [videoDescription, setVideoDescription] = React.useState("");
+    const socket = React.useRef(null);
+    const [socketState, setSocketState] = React.useState(null);
+    const playerRef = React.useRef(null);
 
     const setVideoDetails = async (
         videoId,
@@ -33,19 +39,22 @@ function PlayerPage() {
 
         if (type === "createRoom") {
             const roomId = searchParams.get("roomId");
+            setRoomId(roomId);
             const newVideoId = searchParams.get("videoId");
             setVideoId(newVideoId);
             const adminName = "Venkat";
-            createRoom(roomId, adminName, newVideoId);
+            const socket = createRoom(roomId, adminName, newVideoId);
 
             setVideoDetails(newVideoId, setVideoTitle, setVideoDescription);
+            setSocketState(socket);
         }
 
         if (type === "joinRoom") {
             const roomId = searchParams.get("roomId");
+            setRoomId(roomId);
 
             // Join the room and get the room's videoId
-            joinRoom(roomId, "Venkat2", (data) => {
+            const socket = joinRoom(roomId, "Venkat2", (data) => {
                 if (data && data.videoId) {
                     setVideoId(data.videoId);
                     setVideoDetails(
@@ -55,13 +64,54 @@ function PlayerPage() {
                     );
                 }
             });
+            setSocketState(socket);
         }
+
+        console.log(socketState);
+
+        socket.current = io(SOCKET_ENDPOINT);
+
+        socket.current.on("play", ({ currentTime }) => {
+            console.log(currentTime);
+
+            playerRef.current.currentTime = currentTime;
+            playerRef.current.playVideo();
+        });
+
+        socket.current.on("pause", ({ currentTime }) => {
+            playerRef.current.currentTime = currentTime;
+            playerRef.current.pauseVideo();
+        });
+
+        socket.current.on("seek", ({ currentTime }) => {
+            playerRef.current.currentTime = currentTime;
+        });
+
+        return () => {
+            socket.current.disconnect();
+        };
     }, [searchParams]);
+
+    const handlePlay = () => {
+        const currentTime = playerRef.current.currentTime;
+        socket.current.emit("play", { roomId, currentTime });
+        playerRef.current.playVideo();
+    };
+
+    const handlePause = () => {
+        const currentTime = playerRef.current.currentTime;
+        socket.current.emit("pause", { roomId, currentTime });
+        playerRef.current.pauseVideo();
+    };
 
     return (
         <Wrapper>
-            <Player videoId={videoId} />
-            <Timeline length={920} />
+            <Player playerRef={playerRef} videoId={videoId} />
+            <ControlsWrapper>
+                <Button onClick={handlePlay}>Play</Button>
+                <Button onClick={handlePause}>Pause</Button>
+                <Timeline length={920} />
+            </ControlsWrapper>
             <VideoInfo>
                 <Title>{videoTitle}</Title>
                 <ChannelInfo>
@@ -86,6 +136,17 @@ const Wrapper = styled.div`
         "info description";
     grid-template-columns: 3fr 1fr;
     row-gap: var(--gap-4x);
+`;
+
+const ControlsWrapper = styled.div`
+    display: flex;
+    gap: var(--gap-4x);
+    height: fit-content;
+`;
+
+const Button = styled.button`
+    border-radius: 10px;
+    padding: var(--padding-base) var(--padding-4x);
 `;
 
 const VideoInfo = styled.div`

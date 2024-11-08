@@ -7,6 +7,15 @@ export function connectSocket() {
     if (!socket.connected) {
         socket.connect();
     }
+
+    return socket;
+}
+
+export function getSocket() {
+    if (!socket) {
+        connectSocket();
+    }
+    return socket;
 }
 
 export function createRoom(roomId, adminName, videoId) {
@@ -17,6 +26,8 @@ export function createRoom(roomId, adminName, videoId) {
         adminName,
         video: videoId,
     });
+
+    return socket;
 }
 
 export function joinRoom(roomId, user, callback) {
@@ -33,6 +44,8 @@ export function joinRoom(roomId, user, callback) {
 
         callback(data);
     });
+
+    return socket;
 }
 
 socket.on("user-joined", (data) => {

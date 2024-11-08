@@ -64,7 +64,7 @@ export async function getVideoInfo(videoId) {
 
         if (data.title && data.description) {
             return {
-                title: data.title,
+                title: data.titleyou,
                 description: data.description,
                 publishedAt: data.publishedAt,
                 thumbnails: data.thumbnails,

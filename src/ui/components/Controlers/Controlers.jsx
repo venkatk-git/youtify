@@ -37,7 +37,7 @@ export function Timeline({ length }) {
 }
 
 const Wrapper = styled.div`
-    width: 95%;
+    width: 80%;
     margin: 0 12px;
     margin-bottom: 6px;
 `;
@@ -49,7 +49,10 @@ const TimeWrapper = styled.div`
 
 const Input = styled.input`
     width: 100%;
+    height: 8px;
     padding: 0;
+    border: none;
+    background-color: var(--primary-gray);
 `;
 
 export function StateButton() {}

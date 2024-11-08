@@ -1,18 +1,52 @@
 // Dependencies
 import styled from "styled-components";
+import React from "react";
 
 // eslint-disable-next-line react/prop-types
-function Player({ videoId }) {
+function Player({ playerRef, videoId }) {
+    React.useEffect(() => {
+        if (!videoId) return;
+
+        // Load YouTube API if it hasn't been loaded
+        if (!window.YT) {
+            const tag = document.createElement("script");
+            tag.src = "https://www.youtube.com/iframe_api";
+            window.document.body.appendChild(tag);
+            window.onYouTubeIframeAPIReady = initializePlayer;
+            console.log(playerRef);
+            
+        } else {
+            initializePlayer();
+        }
+
+        function initializePlayer() {
+            playerRef.current = new window.YT.Player("yt-player", {
+                videoId,
+                events: {
+                    onReady: (event) => {
+                        console.log("Player is ready:", event);
+                    },
+                },
+                playerVars: {
+                    autoplay: 0,
+                    controls: 1,
+                },
+            });
+        }
+
+        // Cleanup the player when the component unmounts or videoId changes
+        return () => {
+            if (playerRef.current) {
+                playerRef.current.destroy();
+                playerRef.current = null;
+            }
+        };
+    }, [videoId]);
+
     return (
         <Wrapper>
             {videoId ? (
-                <Iframe
-                    src={`https://www.youtube.com/embed/${videoId}`}
-                    title="YouTube video player"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                />
+                <div id="yt-player" />
             ) : (
                 <Placeholder>No video selected</Placeholder>
             )}
@@ -29,13 +63,11 @@ const Wrapper = styled.div`
     background-color: var(--primary-gray);
     border-radius: var(--round-2x);
     aspect-ratio: 16 / 9;
-`;
 
-const Iframe = styled.iframe`
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: var(--round-2x);
+    & #yt-player {
+        width: 100%;
+        height: 100%;
+    }
 `;
 
 const Placeholder = styled.div`

@@ -13,8 +13,6 @@ function Player({ playerRef, videoId }) {
             tag.src = "https://www.youtube.com/iframe_api";
             window.document.body.appendChild(tag);
             window.onYouTubeIframeAPIReady = initializePlayer;
-            console.log(playerRef);
-            
         } else {
             initializePlayer();
         }
@@ -29,7 +27,7 @@ function Player({ playerRef, videoId }) {
                 },
                 playerVars: {
                     autoplay: 0,
-                    controls: 1,
+                    controls: 0,
                 },
             });
         }

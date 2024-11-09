@@ -1,6 +1,5 @@
 // Dependencies
 import styled from "styled-components";
-import { io } from "socket.io-client";
 import React from "react";
 
 // Components
@@ -8,10 +7,9 @@ import Player from "./Player";
 import { Timeline } from "../../ui/components/Controlers/Controlers";
 
 // Handlers
-import { createRoom, getSocket, joinRoom } from "../../services/socketServices";
+import { createRoom, joinRoom } from "../../services/socketServices";
 import { useSearchParams } from "react-router-dom";
 import { getVideoInfo } from "../../services/videoServices";
-import { SOCKET_ENDPOINT } from "../../utils/constants";
 
 function PlayerPage() {
     const [searchParams] = useSearchParams();
@@ -19,17 +17,11 @@ function PlayerPage() {
     const [roomId, setRoomId] = React.useState("");
     const [videoTitle, setVideoTitle] = React.useState("");
     const [videoDescription, setVideoDescription] = React.useState("");
-    const socket = React.useRef(null);
     const [socketState, setSocketState] = React.useState(null);
     const playerRef = React.useRef(null);
 
-    const setVideoDetails = async (
-        videoId,
-        setVideoTitle,
-        setVideoDescription
-    ) => {
+    const setVideoDetails = async (videoId) => {
         const videoDetails = await getVideoInfo(videoId);
-
         setVideoTitle(videoDetails.title);
         setVideoDescription(videoDetails.description);
     };
@@ -45,7 +37,8 @@ function PlayerPage() {
             const adminName = "Venkat";
             const socket = createRoom(roomId, adminName, newVideoId);
 
-            setVideoDetails(newVideoId, setVideoTitle, setVideoDescription);
+            setVideoDetails(newVideoId);
+
             setSocketState(socket);
         }
 
@@ -53,54 +46,61 @@ function PlayerPage() {
             const roomId = searchParams.get("roomId");
             setRoomId(roomId);
 
-            // Join the room and get the room's videoId
             const socket = joinRoom(roomId, "Venkat2", (data) => {
                 if (data && data.videoId) {
                     setVideoId(data.videoId);
-                    setVideoDetails(
-                        data.videoId,
-                        setVideoTitle,
-                        setVideoDescription
-                    );
+                    setVideoDetails(data.videoId);
                 }
             });
             setSocketState(socket);
         }
+    }, []);
 
-        console.log(socketState);
+    React.useEffect(() => {
+        if (!socketState) return;
 
-        socket.current = io(SOCKET_ENDPOINT);
-
-        socket.current.on("play", ({ currentTime }) => {
-            console.log(currentTime);
-
-            playerRef.current.currentTime = currentTime;
+        const handlePlay = ({ currentTime }) => {
+            playerRef.current.playerInfo.currentTime = currentTime;
             playerRef.current.playVideo();
-        });
-
-        socket.current.on("pause", ({ currentTime }) => {
-            playerRef.current.currentTime = currentTime;
-            playerRef.current.pauseVideo();
-        });
-
-        socket.current.on("seek", ({ currentTime }) => {
-            playerRef.current.currentTime = currentTime;
-        });
-
-        return () => {
-            socket.current.disconnect();
         };
-    }, [searchParams]);
+
+        const handlePause = ({ currentTime }) => {
+            playerRef.current.playerInfo.currentTime = currentTime;
+            playerRef.current.pauseVideo();
+        };
+
+        const handleSeek = ({ currentTime }) => {
+            playerRef.current.seekTo(currentTime, true);
+        };
+
+        socketState.on("play", handlePlay);
+        socketState.on("pause", handlePause);
+        socketState.on("seek", handleSeek);
+
+        // Cleanup listeners on unmount or when socketState changes
+        return () => {
+            socketState.off("play", handlePlay);
+            socketState.off("pause", handlePause);
+            socketState.off("seek", handleSeek);
+            socketState.disconnect();
+        };
+    }, [socketState]);
+
+    React.useEffect(() => {
+        if (videoId) {
+            setVideoDetails(videoId);
+        }
+    }, [videoId]);
 
     const handlePlay = () => {
-        const currentTime = playerRef.current.currentTime;
-        socket.current.emit("play", { roomId, currentTime });
+        const currentTime = playerRef.current.playerInfo.currentTime;
+        socketState.emit("play", { roomId, currentTime });
         playerRef.current.playVideo();
     };
 
     const handlePause = () => {
         const currentTime = playerRef.current.currentTime;
-        socket.current.emit("pause", { roomId, currentTime });
+        socketState.emit("pause", { roomId, currentTime });
         playerRef.current.pauseVideo();
     };
 

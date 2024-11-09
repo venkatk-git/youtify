@@ -39,9 +39,6 @@ export function joinRoom(roomId, user, callback) {
     });
 
     socket.on("room:data", (data) => {
-        console.log("room:data");
-        console.log(data);
-
         callback(data);
     });
 

@@ -5,6 +5,7 @@ import React from "react";
 // Components
 import Player from "./Player";
 import { Timeline } from "../../ui/components/Controlers/Controlers";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 // Handlers
 import { createRoom, joinRoom } from "../../services/socketServices";
@@ -17,6 +18,8 @@ function PlayerPage() {
     const [roomId, setRoomId] = React.useState("");
     const [videoTitle, setVideoTitle] = React.useState("");
     const [videoDescription, setVideoDescription] = React.useState("");
+    const [currentTime, setCurrentTime] = React.useState(0);
+    const [videoLength, setVideoLength] = React.useState(0);
     const [socketState, setSocketState] = React.useState(null);
     const playerRef = React.useRef(null);
 
@@ -77,7 +80,6 @@ function PlayerPage() {
         socketState.on("pause", handlePause);
         socketState.on("seek", handleSeek);
 
-        // Cleanup listeners on unmount or when socketState changes
         return () => {
             socketState.off("play", handlePlay);
             socketState.off("pause", handlePause);
@@ -92,6 +94,30 @@ function PlayerPage() {
         }
     }, [videoId]);
 
+    React.useEffect(() => {
+        if (playerRef.current) {
+            const duration = playerRef.current.getDuration
+                ? playerRef.current.getDuration()
+                : playerRef.current.playerInfo?.duration;
+
+            setVideoLength(duration || 0);
+        }
+    }, []);
+
+    React.useEffect(() => {
+        const updateTime = () => {
+            if (playerRef.current && playerRef.current.getCurrentTime) {
+                const current = Math.floor(playerRef.current.getCurrentTime());
+
+                setCurrentTime(current); // Update the state with the current playback time
+            }
+        };
+
+        const interval = setInterval(updateTime, 500); // Update every 500ms
+
+        return () => clearInterval(interval); // Clean up the interval on unmount
+    }, [playerRef]);
+
     const handlePlay = () => {
         const currentTime = playerRef.current.playerInfo.currentTime;
         socketState.emit("play", { roomId, currentTime });
@@ -104,20 +130,43 @@ function PlayerPage() {
         playerRef.current.pauseVideo();
     };
 
+    const handleSeek = (time) => {
+        playerRef.current.currentTime = time; // Update video to match slider position
+    };
+
     return (
         <Wrapper>
-            <Player playerRef={playerRef} videoId={videoId} />
+            <Player
+                playerRef={playerRef}
+                videoId={videoId}
+                onReady={() => setVideoLength(playerRef.current.getDuration())}
+            />
             <ControlsWrapper>
-                <Button onClick={handlePlay}>Play</Button>
-                <Button onClick={handlePause}>Pause</Button>
-                <Timeline length={920} />
+                <Button onClick={handlePlay}>
+                    <Icon
+                        icon="gravity-ui:play-fill"
+                        style={{ color: "white" }}
+                    />
+                </Button>
+                <Button onClick={handlePause}>
+                    <Icon
+                        icon="fluent:pause-12-filled"
+                        style={{ color: "white" }}
+                    />
+                </Button>
+                <Timeline
+                    playerRef={playerRef}
+                    length={videoLength}
+                    currentTime={currentTime}
+                    onSeek={handleSeek}
+                />
             </ControlsWrapper>
             <VideoInfo>
                 <Title>{videoTitle}</Title>
-                <ChannelInfo>
+                {/* <ChannelInfo>
                     <ChannelProfile></ChannelProfile>
                     <ChannelName></ChannelName>
-                </ChannelInfo>
+                </ChannelInfo> */}
             </VideoInfo>
             <Description>{videoDescription}</Description>
         </Wrapper>
@@ -133,20 +182,25 @@ const Wrapper = styled.div`
     display: grid;
     grid-template-areas:
         "player description"
+        "controls description"
         "info description";
     grid-template-columns: 3fr 1fr;
     row-gap: var(--gap-4x);
 `;
 
 const ControlsWrapper = styled.div`
+    grid: "controls";
     display: flex;
     gap: var(--gap-4x);
     height: fit-content;
+    align-items: center;
 `;
 
 const Button = styled.button`
-    border-radius: 10px;
-    padding: var(--padding-base) var(--padding-4x);
+    background-color: transparent;
+    font-size: var(--font-size-l);
+    cursor: pointer;
+    margin-top: var(--margin-4x);
 `;
 
 const VideoInfo = styled.div`
@@ -164,25 +218,25 @@ const Title = styled.div`
     border-radius: var(--round-base);
 `;
 
-const ChannelInfo = styled.div`
-    display: flex;
-    align-items: center;
-    gap: var(--gap-2x);
-`;
+// const ChannelInfo = styled.div`
+//     display: flex;
+//     align-items: center;
+//     gap: var(--gap-2x);
+// `;
 
-const ChannelProfile = styled.div`
-    width: 32px;
-    height: 32px;
-    background-color: var(--primary-gray);
-    border-radius: 50%;
-`;
+// const ChannelProfile = styled.div`
+//     width: 32px;
+//     height: 32px;
+//     background-color: var(--primary-gray);
+//     border-radius: 50%;
+// `;
 
-const ChannelName = styled.div`
-    width: 25%;
-    height: 24px;
-    background-color: var(--primary-gray);
-    border-radius: var(--round-base);
-`;
+// const ChannelName = styled.div`
+//     width: 25%;
+//     height: 24px;
+//     background-color: var(--primary-gray);
+//     border-radius: var(--round-base);
+// `;
 
 const Description = styled.div`
     grid-area: description;

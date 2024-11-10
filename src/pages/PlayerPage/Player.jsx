@@ -3,7 +3,7 @@ import styled from "styled-components";
 import React from "react";
 
 // eslint-disable-next-line react/prop-types
-function Player({ playerRef, videoId }) {
+function Player({ playerRef, videoId, onReady }) {
     React.useEffect(() => {
         if (!videoId) return;
 
@@ -23,6 +23,7 @@ function Player({ playerRef, videoId }) {
                 events: {
                     onReady: (event) => {
                         console.log("Player is ready:", event);
+                        onReady();
                     },
                 },
                 playerVars: {
@@ -61,6 +62,7 @@ const Wrapper = styled.div`
     background-color: var(--primary-gray);
     border-radius: var(--round-2x);
     aspect-ratio: 16 / 9;
+    overflow: hidden;
 
     & #yt-player {
         width: 100%;

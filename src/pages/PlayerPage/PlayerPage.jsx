@@ -65,15 +65,17 @@ function PlayerPage() {
         const handlePlay = ({ currentTime }) => {
             playerRef.current.playerInfo.currentTime = currentTime;
             playerRef.current.playVideo();
+            console.log("pause");
         };
 
         const handlePause = ({ currentTime }) => {
             playerRef.current.playerInfo.currentTime = currentTime;
             playerRef.current.pauseVideo();
+            console.log("pause");
         };
 
-        const handleSeek = ({ currentTime }) => {
-            playerRef.current.seekTo(currentTime, true);
+        const handleSeek = ({ time }) => {
+            playerRef.current.seekTo(time, true);
         };
 
         socketState.on("play", handlePlay);
@@ -131,7 +133,8 @@ function PlayerPage() {
     };
 
     const handleSeek = (time) => {
-        playerRef.current.currentTime = time; // Update video to match slider position
+        socketState.emit("seek", { roomId, time });
+        playerRef.current.playerInfo.currentTime = time;
     };
 
     return (

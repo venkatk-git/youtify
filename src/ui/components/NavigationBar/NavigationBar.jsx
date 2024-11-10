@@ -9,10 +9,26 @@ import WatchPartyButton from "./WatchPartyButton";
 
 // Context
 import { useUser } from "../../../context/UserContext";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { useState } from "react";
 
 function NavigationBar() {
+    const [searchParams] = useSearchParams();
     const user = useUser();
+    const location = useLocation();
+
+    const handleCopy = () => {
+        const roomId = searchParams.get("roomId");
+
+        navigator.clipboard.writeText(roomId).then(
+            () => {
+                console.log("URL copied to clipboard!");
+            },
+            (err) => {
+                console.error("Failed to copy: ", err);
+            }
+        );
+    };
 
     return (
         <Wrapper>
@@ -27,14 +43,34 @@ function NavigationBar() {
             <Filler />
             <SearchFeild />
             <Filler />
-            <WatchPartyButton>
-                <Link to="/watchparty">Watch</Link>
-            </WatchPartyButton>
+            <WatchPartyWrapper>
+                {location.pathname === "/watch" && (
+                    <WatchPartyShare handleCopy={handleCopy} />
+                )}
+                <WatchPartyButton>
+                    <Link to="/watchparty">Watch</Link>
+                </WatchPartyButton>
+            </WatchPartyWrapper>
 
             <Profile>
                 {user ? <Picture src={user.picture} /> : <SadFace>☹️</SadFace>}
             </Profile>
         </Wrapper>
+    );
+}
+
+function WatchPartyShare({ handleCopy }) {
+    const [text, setText] = useState("Share");
+    return (
+        <ShareWrapper>
+            <Button
+                onClick={handleCopy}
+                onMouseEnter={() => setText("Copy")}
+                onMouseLeave={() => setText("Share")}
+            >
+                {text}
+            </Button>
+        </ShareWrapper>
     );
 }
 
@@ -89,6 +125,34 @@ const Picture = styled.img`
 
 const SadFace = styled.span`
     margin-top: -4px;
+`;
+
+const WatchPartyWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    gap: var(--gap-4x);
+`;
+
+const ShareWrapper = styled.div``;
+
+const Button = styled.button`
+    background-color: var(--primary-red-100);
+    padding: 10px var(--padding-6x);
+    color: var(--color-gray-100);
+    border-radius: 100px;
+    font-size: var(--font-size-md);
+    font-weight: var(--bold);
+    width: 90px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--primary-red);
+    }
+
+    & a {
+        color: inherit;
+        text-decoration: none;
+    }
 `;
 
 export default NavigationBar;

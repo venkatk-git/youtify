@@ -29,6 +29,7 @@ function PlayerPage() {
         setVideoDescription(videoDetails.description);
     };
 
+    // Create Or Join Room
     React.useEffect(() => {
         const type = searchParams.get("type");
 
@@ -57,45 +58,46 @@ function PlayerPage() {
             });
             setSocketState(socket);
         }
-    }, []);
+    }, [searchParams]);
 
+    // Socket Event Recievers
     React.useEffect(() => {
         if (!socketState) return;
 
-        const handlePlay = ({ currentTime }) => {
+        const handleOnPlay = ({ currentTime }) => {
             playerRef.current.playerInfo.currentTime = currentTime;
             playerRef.current.playVideo();
-            console.log("pause");
         };
 
-        const handlePause = ({ currentTime }) => {
+        const handleOnPause = ({ currentTime }) => {
             playerRef.current.playerInfo.currentTime = currentTime;
             playerRef.current.pauseVideo();
-            console.log("pause");
         };
 
-        const handleSeek = ({ time }) => {
+        const handleOnSeek = ({ time }) => {
             playerRef.current.seekTo(time, true);
         };
 
-        socketState.on("play", handlePlay);
-        socketState.on("pause", handlePause);
-        socketState.on("seek", handleSeek);
+        socketState.on("play", handleOnPlay);
+        socketState.on("pause", handleOnPause);
+        socketState.on("seek", handleOnSeek);
 
         return () => {
-            socketState.off("play", handlePlay);
-            socketState.off("pause", handlePause);
-            socketState.off("seek", handleSeek);
+            socketState.off("play", handleOnPlay);
+            socketState.off("pause", handleOnPause);
+            socketState.off("seek", handleOnSeek);
             socketState.disconnect();
         };
     }, [socketState]);
 
+    // VideoId Setup
     React.useEffect(() => {
         if (videoId) {
             setVideoDetails(videoId);
         }
     }, [videoId]);
 
+    // Player Duration Setup
     React.useEffect(() => {
         if (playerRef.current) {
             const duration = playerRef.current.getDuration
@@ -106,20 +108,22 @@ function PlayerPage() {
         }
     }, []);
 
+    // Player Playback Timeline Setup (Current time)
     React.useEffect(() => {
         const updateTime = () => {
             if (playerRef.current && playerRef.current.getCurrentTime) {
                 const current = Math.floor(playerRef.current.getCurrentTime());
 
-                setCurrentTime(current); // Update the state with the current playback time
+                setCurrentTime(current); 
             }
         };
 
-        const interval = setInterval(updateTime, 500); // Update every 500ms
+        const interval = setInterval(updateTime, 500); 
 
-        return () => clearInterval(interval); // Clean up the interval on unmount
+        return () => clearInterval(interval); 
     }, [playerRef]);
 
+    // Button Handlers
     const handlePlay = () => {
         const currentTime = playerRef.current.playerInfo.currentTime;
         socketState.emit("play", { roomId, currentTime });

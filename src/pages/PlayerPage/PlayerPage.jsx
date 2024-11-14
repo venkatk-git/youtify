@@ -114,13 +114,13 @@ function PlayerPage() {
             if (playerRef.current && playerRef.current.getCurrentTime) {
                 const current = Math.floor(playerRef.current.getCurrentTime());
 
-                setCurrentTime(current); 
+                setCurrentTime(current);
             }
         };
 
-        const interval = setInterval(updateTime, 500); 
+        const interval = setInterval(updateTime, 500);
 
-        return () => clearInterval(interval); 
+        return () => clearInterval(interval);
     }, [playerRef]);
 
     // Button Handlers
@@ -170,10 +170,10 @@ function PlayerPage() {
             </ControlsWrapper>
             <VideoInfo>
                 <Title>{videoTitle}</Title>
-                {/* <ChannelInfo>
+                <ChannelInfo>
                     <ChannelProfile></ChannelProfile>
                     <ChannelName></ChannelName>
-                </ChannelInfo> */}
+                </ChannelInfo>
             </VideoInfo>
             <Description>{videoDescription}</Description>
         </Wrapper>
@@ -225,25 +225,25 @@ const Title = styled.div`
     border-radius: var(--round-base);
 `;
 
-// const ChannelInfo = styled.div`
-//     display: flex;
-//     align-items: center;
-//     gap: var(--gap-2x);
-// `;
+const ChannelInfo = styled.div`
+    display: flex;
+    align-items: center;
+    gap: var(--gap-2x);
+`;
 
-// const ChannelProfile = styled.div`
-//     width: 32px;
-//     height: 32px;
-//     background-color: var(--primary-gray);
-//     border-radius: 50%;
-// `;
+const ChannelProfile = styled.div`
+    width: 32px;
+    height: 32px;
+    background-color: var(--primary-gray);
+    border-radius: 50%;
+`;
 
-// const ChannelName = styled.div`
-//     width: 25%;
-//     height: 24px;
-//     background-color: var(--primary-gray);
-//     border-radius: var(--round-base);
-// `;
+const ChannelName = styled.div`
+    width: 25%;
+    height: 24px;
+    background-color: var(--primary-gray);
+    border-radius: var(--round-base);
+`;
 
 const Description = styled.div`
     grid-area: description;

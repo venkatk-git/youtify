@@ -53,7 +53,7 @@ function NavigationBar() {
             </WatchPartyWrapper>
 
             <Profile>
-                {user ? <Picture src={user.picture} /> : <SadFace>☹️</SadFace>}
+                {user ? <Picture src={user?.picture} /> : <SadFace>☹️</SadFace>}
             </Profile>
         </Wrapper>
     );

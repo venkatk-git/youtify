@@ -4,6 +4,7 @@ import React from "react";
 import List from "./List";
 import axios from "axios";
 import { useUser } from "../../context/UserContext";
+import { API_ENDPOINT } from "../../utils/constants";
 
 function Playlist() {
     const [playlists, setPlaylists] = React.useState([]);
@@ -12,14 +13,14 @@ function Playlist() {
     const user = useUser();
 
     React.useEffect(() => {
+        const email = "venkatkumar.al22@bitsathy.ac.in";
+
         const fetchPlaylists = async () => {
             try {
-                const email = user?.email;
-                console.log(email);
-
                 const response = await axios.get(
-                    `/api/smartPlaylist/playlists?email=${email}`
+                    `${API_ENDPOINT}/api/smartPlaylists/playlists?email=${email}`
                 );
+
                 setPlaylists(response.data.playlists);
             } catch (err) {
                 setError("Failed to fetch playlists. Please try again later.");
@@ -40,11 +41,13 @@ function Playlist() {
         return <h1>{error}</h1>;
     }
 
+    console.log(playlists);
+
     return (
         <Wrapper>
             {!playlists && <h1>No playlist available :(</h1>}
-            {playlists?.map((playlist) => (
-                <List key={playlist._id} playlist={playlist} />
+            {playlists?.map((playlist, index) => (
+                <List key={index} playlist={playlist} />
             ))}
         </Wrapper>
     );
